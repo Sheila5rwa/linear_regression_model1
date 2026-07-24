@@ -31,24 +31,42 @@ class PredictionScreen extends StatefulWidget {
 }
 
 class _PredictionScreenState extends State<PredictionScreen> {
-  // Controllers for the input fields
+  // Controllers for the numeric input fields
   final TextEditingController _rainController = TextEditingController();
   final TextEditingController _tempController = TextEditingController();
   final TextEditingController _pesticideController = TextEditingController();
+  
+  // Variable to store the selected country
+  String? _selectedCountry;
 
   bool _isLoading = false;
   String _resultText = '';
 
-  // Your Render API URL
+  // IMPORTANT: Make sure this matches your deployed Render URL!
   final String apiUrl = 'https://linear-regression-model1.onrender.com/predict';
 
+  // List of African countries exactly matching the Jupyter Notebook filter
+  final List<String> _africanCountries = [
+    'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 
+    'Cameroon', 'Central African Republic', 'Chad', 'Comoros', 
+    'Congo', 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 
+    'Equatorial Guinea', 'Eritrea', 'Eswatini', 'Ethiopia', 'Gabon', 
+    'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Kenya', 'Lesotho', 
+    'Liberia', 'Libya', 'Madagascar', 'Malawi', 'Mali', 'Mauritania', 
+    'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Niger', 'Nigeria', 
+    'Rwanda', 'Sao Tome and Principe', 'Senegal', 'Seychelles', 
+    'Sierra Leone', 'Somalia', 'South Africa', 'South Sudan', 'Sudan', 
+    'United Republic of Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'
+  ];
+
   Future<void> _predictYield() async {
-    // Validate inputs
-    if (_rainController.text.isEmpty ||
+    // Validate that all fields and the dropdown are filled
+    if (_selectedCountry == null ||
+        _rainController.text.isEmpty ||
         _tempController.text.isEmpty ||
         _pesticideController.text.isEmpty) {
       setState(() {
-        _resultText = 'Please fill in all fields.';
+        _resultText = 'Please fill in all fields and select a country.';
       });
       return;
     }
@@ -59,8 +77,9 @@ class _PredictionScreenState extends State<PredictionScreen> {
     });
 
     try {
-      // Construct the exact JSON payload expected by FastAPI
+      // Construct the exact JSON payload expected by your updated FastAPI
       final Map<String, dynamic> requestData = {
+        "country": _selectedCountry,
         "average_rain_fall_mm_per_year": double.parse(_rainController.text),
         "avg_temp": double.parse(_tempController.text),
         "pesticides_tonnes": double.parse(_pesticideController.text)
@@ -77,7 +96,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final yieldResult = responseData['predicted_yield_hg_ha'];
         setState(() {
-          _resultText = 'Predicted Yield:\n$yieldResult hg/ha';
+          _resultText = 'Predicted Yield for $_selectedCountry:\n$yieldResult hg/ha';
         });
       } else {
         // Handle validation errors or server errors
@@ -130,6 +149,28 @@ class _PredictionScreenState extends State<PredictionScreen> {
                 style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
               const SizedBox(height: 32),
+
+              // NEW: Country Dropdown Input
+              DropdownButtonFormField<String>(
+                value: _selectedCountry,
+                decoration: InputDecoration(
+                  labelText: 'Select African Country',
+                  prefixIcon: const Icon(Icons.public),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                items: _africanCountries.map((String country) {
+                  return DropdownMenuItem<String>(
+                    value: country,
+                    child: Text(country),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCountry = newValue;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
               
               // Rainfall Input
               TextField(
