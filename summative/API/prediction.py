@@ -11,21 +11,20 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Strict CORS Middleware Configuration (Rubric Requirement)
 ALLOWED_ORIGINS = [
-    "http://localhost",
+    "https://linear-regression-model1.onrender.com",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000",
     "http://localhost:8080",
     "http://127.0.0.1:8080",
-    "https://your-flutter-app-domain.com", # Replace with your actual frontend domain later
-    "https://your-render-url.onrender.com" # Replace with your Render URL
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["POST", "GET", "OPTIONS"], 
-    allow_headers=["Content-Type", "Authorization", "Accept"],
+    allow_origins=ALLOWED_ORIGINS,  
+    allow_credentials=True,        
+    allow_methods=["*"],  
+    allow_headers=["*"],            
 )
 
 # Load the trained model and scaler
