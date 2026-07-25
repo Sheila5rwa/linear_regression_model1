@@ -6,17 +6,24 @@ import numpy as np
 import pandas as pd
 import os
 
-# Define all 54 African countries (case-insensitive matching)
-AFRICAN_COUNTRIES = {
-    "algeria", "angola", "benin", "botswana", "burkina faso", "burundi",
-    "cameroon", "cape verde", "central african republic", "chad", "comoros", "congo",
-    "democratic republic of the congo", "djibouti", "egypt", "equatorial guinea",
-    "eritrea", "eswatini", "ethiopia", "gabon", "gambia", "ghana", "guinea",
-    "guinea-bissau", "ivory coast", "kenya", "lesotho", "liberia", "libya",
-    "madagascar", "malawi", "mali", "mauritania", "mauritius", "morocco",
-    "mozambique", "namibia", "niger", "nigeria", "rwanda", "sao tome and principe",
-    "senegal", "seychelles", "sierra leone", "somalia", "south africa", "south sudan",
-    "sudan", "tanzania", "togo", "tunisia", "uganda", "zambia", "zimbabwe"
+# 1. NEW: The dictionary map that perfectly matches your Jupyter Notebook capitalization
+AFRICAN_COUNTRIES_MAP = {
+    "algeria": "Algeria", "angola": "Angola", "benin": "Benin", "botswana": "Botswana", 
+    "burkina faso": "Burkina Faso", "burundi": "Burundi", "cameroon": "Cameroon", 
+    "cape verde": "Cape Verde", "central african republic": "Central African Republic", "chad": "Chad", 
+    "comoros": "Comoros", "congo": "Congo", "democratic republic of the congo": "Democratic Republic of the Congo", 
+    "djibouti": "Djibouti", "egypt": "Egypt", "equatorial guinea": "Equatorial Guinea", 
+    "eritrea": "Eritrea", "eswatini": "Eswatini", "ethiopia": "Ethiopia", "gabon": "Gabon", 
+    "gambia": "Gambia", "ghana": "Ghana", "guinea": "Guinea", "guinea-bissau": "Guinea-Bissau", 
+    "ivory coast": "Ivory Coast", "kenya": "Kenya", "lesotho": "Lesotho", "liberia": "Liberia", "libya": "Libya", 
+    "madagascar": "Madagascar", "malawi": "Malawi", "mali": "Mali", "mauritania": "Mauritania", 
+    "mauritius": "Mauritius", "morocco": "Morocco", "mozambique": "Mozambique", 
+    "namibia": "Namibia", "niger": "Niger", "nigeria": "Nigeria", "rwanda": "Rwanda", 
+    "sao tome and principe": "Sao Tome and Principe", "senegal": "Senegal", 
+    "seychelles": "Seychelles", "sierra leone": "Sierra Leone", "somalia": "Somalia", 
+    "south africa": "South Africa", "south sudan": "South Sudan", "sudan": "Sudan", 
+    "tanzania": "United Republic of Tanzania", "togo": "Togo", 
+    "tunisia": "Tunisia", "uganda": "Uganda", "zambia": "Zambia", "zimbabwe": "Zimbabwe"
 }
 
 app = FastAPI(
@@ -46,7 +53,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 try:
     model = joblib.load(os.path.join(BASE_DIR, 'best_model.pkl'))
     scaler = joblib.load(os.path.join(BASE_DIR, 'scaler.pkl'))
-    # NEW: Load the columns to align the one-hot encoding
     model_columns = joblib.load(os.path.join(BASE_DIR, 'model_columns.pkl')) 
 except Exception as e:
     print(f"Warning: Files not found. {e}")
@@ -60,15 +66,17 @@ class FarmData(BaseModel):
     
     @validator('country')
     def validate_african_country(cls, v):
-        """Validate that the country is in Africa (case-insensitive)"""
+        """Validate that the country is in Africa and fix capitalization"""
         country_lower = v.lower().strip()
-        if country_lower not in AFRICAN_COUNTRIES:
-            allowed_countries = ", ".join(sorted(AFRICAN_COUNTRIES)).title()
+        if country_lower not in AFRICAN_COUNTRIES_MAP:
+            allowed_countries = ", ".join(sorted(AFRICAN_COUNTRIES_MAP.values()))
             raise ValueError(
                 f"'{v}' is not an African country. This API is restricted to African nations only. "
                 f"Allowed countries: {allowed_countries}"
             )
-        return country_lower
+        
+        # 2. NEW: Return the exactly capitalized version the model trained on!
+        return AFRICAN_COUNTRIES_MAP[country_lower]
 
 @app.get("/health")
 def health_check():
