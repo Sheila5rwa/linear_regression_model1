@@ -70,6 +70,24 @@ class FarmData(BaseModel):
             )
         return country_lower
 
+@app.get("/health")
+def health_check():
+    """Check API health and model status"""
+    try:
+        model_features = len(model_columns) if 'model_columns' in globals() else 0
+        return {
+            "status": "healthy",
+            "model_loaded": True,
+            "expected_features": model_features,
+            "model_columns_sample": list(model_columns)[:10] if 'model_columns' in globals() else []
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "model_loaded": False,
+            "error": str(e)
+        }
+
 @app.post("/predict")
 def predict_yield(data: FarmData):
     try:
@@ -91,11 +109,22 @@ def predict_yield(data: FarmData):
         # This adds all the other African countries as '0' (False)
         df_encoded = df_encoded.reindex(columns=model_columns, fill_value=0)
         
+        # DEBUG: Show what features are being used
+        print(f"Input country: {data.country}")
+        print(f"Features sent to model: {df_encoded.columns.tolist()}")
+        print(f"Feature values: {df_encoded.values[0]}")
+        
         # 5. Scale and Predict
         scaled_features = scaler.transform(df_encoded)
         prediction = model.predict(scaled_features)
         
-        return {"predicted_yield_hg_ha": round(float(prediction[0]), 2)}
+        return {
+            "predicted_yield_hg_ha": round(float(prediction[0]), 2),
+            "country": data.country,
+            "rainfall_mm": data.average_rain_fall_mm_per_year,
+            "temperature_c": data.avg_temp,
+            "pesticides_tonnes": data.pesticides_tonnes
+        }
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Prediction error: {str(e)}")
