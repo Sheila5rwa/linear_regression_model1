@@ -6,17 +6,17 @@ import numpy as np
 import pandas as pd
 import os
 
-# Define all 54 African countries
+# Define all 54 African countries (case-insensitive matching)
 AFRICAN_COUNTRIES = {
-    "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi",
-    "Cameroon", "Cape Verde", "Central African Republic", "Chad", "Comoros", "Congo",
-    "Democratic Republic of the Congo", "Djibouti", "Egypt", "Equatorial Guinea",
-    "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea",
-    "Guinea-Bissau", "Ivory Coast", "Kenya", "Lesotho", "Liberia", "Libya",
-    "Madagascar", "Malawi", "Mali", "Mauritania", "Mauritius", "Morocco",
-    "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda", "Sao Tome and Principe",
-    "Senegal", "Seychelles", "Sierra Leone", "Somalia", "South Africa", "South Sudan",
-    "Sudan", "Tanzania", "Togo", "Tunisia", "Uganda", "Zambia", "Zimbabwe"
+    "algeria", "angola", "benin", "botswana", "burkina faso", "burundi",
+    "cameroon", "cape verde", "central african republic", "chad", "comoros", "congo",
+    "democratic republic of the congo", "djibouti", "egypt", "equatorial guinea",
+    "eritrea", "eswatini", "ethiopia", "gabon", "gambia", "ghana", "guinea",
+    "guinea-bissau", "ivory coast", "kenya", "lesotho", "liberia", "libya",
+    "madagascar", "malawi", "mali", "mauritania", "mauritius", "morocco",
+    "mozambique", "namibia", "niger", "nigeria", "rwanda", "sao tome and principe",
+    "senegal", "seychelles", "sierra leone", "somalia", "south africa", "south sudan",
+    "sudan", "tanzania", "togo", "tunisia", "uganda", "zambia", "zimbabwe"
 }
 
 app = FastAPI(
@@ -60,14 +60,15 @@ class FarmData(BaseModel):
     
     @validator('country')
     def validate_african_country(cls, v):
-        """Validate that the country is in Africa"""
-        if v not in AFRICAN_COUNTRIES:
-            allowed_countries = ", ".join(sorted(AFRICAN_COUNTRIES))
+        """Validate that the country is in Africa (case-insensitive)"""
+        country_lower = v.lower().strip()
+        if country_lower not in AFRICAN_COUNTRIES:
+            allowed_countries = ", ".join(sorted(AFRICAN_COUNTRIES)).title()
             raise ValueError(
                 f"'{v}' is not an African country. This API is restricted to African nations only. "
                 f"Allowed countries: {allowed_countries}"
             )
-        return v
+        return country_lower
 
 @app.post("/predict")
 def predict_yield(data: FarmData):
