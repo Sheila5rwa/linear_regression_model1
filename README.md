@@ -1,4 +1,4 @@
-# 🌾 AgriSmart Africa: Crop Yield Predictor
+#  AgriSmart Africa: Crop Yield Predictor
 
 > **Empowering African farmers with AI-driven crop yield predictions for climate resilience and economic planning**
 
@@ -9,14 +9,14 @@
 
 
 
-## 🎯 Overview
+##  Overview
 
 **AgriSmart Africa** is an end-to-end agricultural prediction platform that leverages machine learning to help small-scale farmers in Africa optimize their crop yields. The system combines a high-performance Python API with a mobile-first Flutter application, making predictive analytics accessible to farmers regardless of technical expertise.
 
 ### Mission
 AgriSmart Africa empowers local farmers with predictive agricultural technology to secure food production against unpredictable climate changes, enabling data-driven decision-making and economic planning.
 
-## 🚜 Problem Statement
+##  Problem Statement
 
 African farmers face critical challenges:
 - **Unpredictable Harvests**: Climate variability makes yield forecasting difficult
@@ -28,15 +28,17 @@ African farmers face critical challenges:
 - Average temperature (°C)
 - Farming inputs and practices
 
-## ✨ Key Features
+  Youtube link of demo video:https://youtu.be/rq_dTfCaRmY?si=FV39XD_DsrvAZmto
 
-- 🤖 **ML-Powered Predictions**: Accurate crop yield forecasts using scikit-learn
-- 📱 **Mobile-First Design**: Flutter app optimized for smartphone users in remote areas
-- ⚡ **REST API**: Fast, scalable FastAPI backend with comprehensive documentation
-- 🔒 **Input Validation**: Strict data constraints to ensure prediction accuracy
-- 🌐 **CORS Support**: Seamless integration across web and mobile platforms
-- 📊 **Swagger UI**: Interactive API documentation for developers
-- 🔄 **Background Tasks**: Asynchronous processing capabilities
+##  Key Features
+
+-  **ML-Powered Predictions**: Accurate crop yield forecasts using scikit-learn
+-  **Mobile-First Design**: Flutter app optimized for smartphone users in remote areas
+-  **REST API**: Fast, scalable FastAPI backend with comprehensive documentation
+-  **Input Validation**: Strict data constraints to ensure prediction accuracy
+-  **CORS Support**: Seamless integration across web and mobile platforms
+-  **Swagger UI**: Interactive API documentation for developers
+-  **Background Tasks**: Asynchronous processing capabilities
 
 ## 🛠️ Technology Stack
 
@@ -57,7 +59,7 @@ African farmers face critical challenges:
 | **Dart** | 3.12+ | Flutter programming language |
 | **HTTP** | Latest | API communication |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 linear_regression_model/
@@ -87,7 +89,7 @@ linear_regression_model/
 │       └── multivariate.ipynb        # Model training notebook
 ```
 
-## 🚀 Installation
+##  Installation
 
 ### Prerequisites
 - **Python** 3.11 or higher
@@ -134,7 +136,7 @@ linear_regression_model/
    flutter doctor
    ```
 
-## 📱 Usage
+##  Usage
 
 ### Running the Backend API
 
@@ -216,7 +218,7 @@ print(response.json())
    - Organic Matter (%)
 3. Tap "Predict" to get the yield forecast
 
-## 📚 API Documentation
+##  API Documentation
 
 ### Endpoint: `/predict`
 
@@ -365,13 +367,11 @@ Contributions are welcome! Here's how to get started:
 - Add tests for new features
 - Update documentation
 
-## 📝 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [GitHub Profile](https://github.com/yourusername)
+- **Rwakunda Kaliza Sheila Milena- 
 
 ## 🔗 Useful Links
 
@@ -380,13 +380,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [scikit-learn Guide](https://scikit-learn.org/stable/)
 - [Dart Language Tour](https://dart.dev/guides/language/language-tour)
 
-## 📞 Support
 
-For issues, questions, or suggestions:
-- Open an [Issue](https://github.com/yourusername/linear_regression_model/issues)
-- Start a [Discussion](https://github.com/yourusername/linear_regression_model/discussions)
-- Contact: your.email@example.com
 
----
 
-**Last Updated:** July 2024 | **Status:** Active Development ✅
+**Last Updated:** 26th July 2026 
