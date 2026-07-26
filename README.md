@@ -371,7 +371,7 @@ Contributions are welcome! Here's how to get started:
 
 ## 👥 Authors
 
-- **Rwakunda Kaliza Sheila Milena- 
+Rwakunda Kaliza Sheila Milena
 
 ## 🔗 Useful Links
 
