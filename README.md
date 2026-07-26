@@ -28,7 +28,7 @@ African farmers face critical challenges:
 - Average temperature (°C)
 - Farming inputs and practices
 
-  Youtube link of demo video:https://youtu.be/rq_dTfCaRmY?si=FV39XD_DsrvAZmto
+  **Youtube link of demo video:https://youtu.be/rq_dTfCaRmY?si=FV39XD_DsrvAZmto**
 
 ##  Key Features
 
